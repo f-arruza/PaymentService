@@ -1,0 +1,14 @@
+language: python
+python:
+- 3.5.2
+install: pip install -r requirements.txt
+script: nosetests
+deploy:
+  provider: heroku
+  api_key:
+    secure: DCHM1gnPR/3CqtVEKd6lnKyM7WJDdb78w204BOxUr+pk98i1mm642WTZIAm9opQOQ9TYXebQa3Y02EozT9Tp4ZMqbAXMCVve6CcJbRGkU9WEVZSip2+3XAsvn9fqtFokJQ6E$
+  app: PaymentService
+  on:
+    repo: f-arruza/PaymentService
+  run:
+    - "python manage.py collectstatic --no-input"
