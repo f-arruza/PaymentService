@@ -7,6 +7,8 @@ script: nosetests
 deploy:
   provider: heroku
   app: pilafacil
+  api_key:
+    secure: "YOUR ENCRYPTED API KEY"
   on:
     repo: f-arruza/PaymentService
   run:
