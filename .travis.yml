@@ -6,8 +6,6 @@ install:
 script: nosetests
 deploy:
   provider: heroku
-  api_key:
-    secure: vyJQSRyAyMxS4SRPUE21j1lM1ghHbtlp4bX+kGk3Blgwo8eb0U+UR/R95KNCa3HKOxAcE1J0bjSOGarHrHo5Nq+pwuRScQBJnXGen1NT0fWEH52n7gBA777Ri8zqazxxmE+7+RmcU/J6Sf76vOjfokzMEFCFcCfbIut7cnUXHoSV+MKxR/bj93kRHdtlz0dwr1beHA7ULbQs+l5zBwCD6mm4cUh9Mw+UTZaQE6bKN+kZNpwjV3ncPCFNtgC6MYIHuqa6H5bgcKNTanqBNnHX5UmToHPqsq8n0au5eJEj71bWnUcwHIFBPSEweyE8ZbTImzDD7mLrPuwoDU/y2sOHDDf1sQtpZJJi3iWTbEev7dYRSJxpcxJGDc9oBjL0L3y159KstAV+mBgFaPzTbkHVLdF1B1rNAHNKtj66FmOQJ7NagvTOA1TgbRbKC/sQEndnyl+tMykqGuC00qL+saIiWyx6LuxDn1KHfbNfXi+aRe+TuVyz6AiybzmdTvyr/9uy2tpWq+iS+zOmOz5FRkWGwvUhQ0tF7uX0sUdcmQMflAfxq0X1R2F36ZdEUhVTv/KGMGGQpAyjVJ1KQhNROxSRg3Ocs9Q0ZM8hkR1hG9a7QGjDxST1ApbcgmgTiPHn2r5sLtF1HY8+T4x9A1anC/7FDrHFTs9oR0d81SFej0Qpigo=
   app: pilafacil
   on:
     repo: f-arruza/PaymentService
