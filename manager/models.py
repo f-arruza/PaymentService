@@ -136,7 +136,7 @@ class Pensionado(models.Model):
     tarifaEspecial = models.CharField(max_length=1, blank=False,
         choices=TARIFA_ESPECIAL_PVAL
     )
-    empresaEmpleadora = models.ForeignKey(EmpresaEmpleadora)
+    empresaEmpleadora = models.ForeignKey(EmpresaEmpleadora, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.primerApellido + " " + self.primerNombre
