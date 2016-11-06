@@ -9,6 +9,11 @@ class EmpresaEmpleadoraListView(ListAPIView):
     queryset = EmpresaEmpleadora.objects.all()
     serializer_class = EmpresaEmpleadoraSerializer
 
+    filter_backends = (filters.SearchFilter,)
+    search_fields = (
+        'id',
+    )
+
 
 class EmpresaEmpleadoraCreateView(CreateAPIView):
     queryset = EmpresaEmpleadora.objects.all()
