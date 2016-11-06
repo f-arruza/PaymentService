@@ -5,3 +5,5 @@ psycopg2==2.6.2
 travis==0.0.2
 djangorestframework==3.3.3
 gunicorn==18.0
+dj-static==0.0.6
+static==0.4
