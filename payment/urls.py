@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.contrib.auth import views as auth_views
+from .views import IndexView
 from .views_impl import (EmpresaEmpleadoraListViewImpl,
                          EmpresaEmpleadoraCreateViewImpl,
                          EmpresaEmpleadoraUpdateViewImpl,
@@ -7,6 +9,15 @@ from .views_impl import (EmpresaEmpleadoraListViewImpl,
                          PensionadoUpdateViewImpl)
 
 urlpatterns = [
+    url(r'^$', IndexView.as_view(), name='manager'),
+    url(
+        r'^login/$',
+        auth_views.login,
+        {
+            'template_name': 'login.html'
+        },
+        name='login',
+    ),
     url(r'^emp-list/$', EmpresaEmpleadoraListViewImpl.as_view(),
         name='emp-list'),
     url(r'^emp-create/', EmpresaEmpleadoraCreateViewImpl.as_view(),
