@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView
 from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated
