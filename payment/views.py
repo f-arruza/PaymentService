@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView
+from rest_framework import filters
 from .models import EmpresaEmpleadora, Pensionado
 from .serializers import (EmpresaEmpleadoraSerializer, PensionadoSerializer,
                           PensionadoCreateUpdateSerializer)
@@ -25,6 +26,11 @@ class EmpresaEmpleadoraUpdateView(UpdateAPIView):
 class PensionadoListView(ListAPIView):
     queryset = Pensionado.objects.all()
     serializer_class = PensionadoSerializer
+
+    filter_backends = (filters.SearchFilter,)
+    search_fields = (
+        'id',
+    )
 
 
 class PensionadoCreateView(CreateAPIView):
