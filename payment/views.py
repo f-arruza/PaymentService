@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView
 from .models import EmpresaEmpleadora, Pensionado
-from .serializers import EmpresaEmpleadoraSerializer, PensionadoSerializer
+from .serializers import (EmpresaEmpleadoraSerializer, PensionadoSerializer,
+                          PensionadoCreateUpdateSerializer)
 
 
 class EmpresaEmpleadoraListView(ListAPIView):
@@ -28,11 +29,11 @@ class PensionadoListView(ListAPIView):
 
 class PensionadoCreateView(CreateAPIView):
     queryset = Pensionado.objects.all()
-    serializer_class = PensionadoSerializer
+    serializer_class = PensionadoCreateUpdateSerializer
 
 
 class PensionadoUpdateView(UpdateAPIView):
-    serializer_class = PensionadoSerializer
+    serializer_class = PensionadoCreateUpdateSerializer
 
     def get_queryset(self):
         pen = Pensionado.objects.filter(pk=self.kwargs['pk'])

@@ -45,3 +45,25 @@ class PensionadoSerializer(serializers.ModelSerializer):
             'tarifaEspecial',
             'empresaEmpleadora',
         )
+
+
+class PensionadoCreateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pensionado
+        fields = (
+            'id',
+            'primerApellido',
+            'segundoApellido',
+            'primerNombre',
+            'segundoNombre',
+            'tipoDocumento',
+            'numeroDocumento',
+            'tipoPension',
+            'tipoPensionado',
+            'pensionadoExterior',
+            'grupoFamiliarColombia',
+            'ingresoBaseCotizacion',
+            'actividadEconomica',
+            'tarifaEspecial',
+            'empresaEmpleadora',
+        )
