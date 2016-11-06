@@ -1,1 +1,1 @@
-web: DJANGO_SETTINGS_MODULE=freeven.settings gunicorn paymentservice.wsgi
+web: DJANGO_SETTINGS_MODULE=paymentservice.settings gunicorn paymentservice.wsgi
