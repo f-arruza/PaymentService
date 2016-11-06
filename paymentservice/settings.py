@@ -31,13 +31,6 @@ LOGIN_REDIRECT_URL = '/payment/'
 LOGIN_URL = '/payment/login/'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-    'google.com',
-    'hostname.example.com',
-    'localhost:8000',
-    '127.0.0.1',
-    'localhost'
-)
 
 # Application definition
 
