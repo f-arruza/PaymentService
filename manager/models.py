@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
 
+
 # Create your models here.
 class EmpresaEmpleadora(models.Model):
 
@@ -38,26 +39,26 @@ class EmpresaEmpleadora(models.Model):
 
     nombreRazonSocial = models.CharField(max_length=150, blank=False)
     tipoDocumento = models.CharField(max_length=2, blank=False,
-        choices=TIPO_DOC_PVAL
-    )
+                                     choices=TIPO_DOC_PVAL
+                                     )
     numeroDocumento = models.CharField(max_length=16, blank=False)
     clasePagadorPensiones = models.CharField(max_length=1, blank=False,
-        choices=CLASE_PAGADOR_PVAL
-    )
+                                             choices=CLASE_PAGADOR_PVAL
+                                             )
     naturalezaJuridica = models.CharField(max_length=1, blank=False,
-        choices=NATURALEZA_JURIDICA_PVAL
-    )
+                                          choices=NATURALEZA_JURIDICA_PVAL
+                                          )
     tipoPersona = models.CharField(max_length=1, blank=False,
-        choices=TIPO_PERSONA_PVAL
-    )
+                                   choices=TIPO_PERSONA_PVAL
+                                   )
     direccion = models.CharField(max_length=40, blank=False)
     ciudadMunicipio = models.CharField(max_length=3, blank=False)
     departamento = models.CharField(max_length=2, blank=False)
     telefono = models.CharField(max_length=15, blank=False)
     correo = models.CharField(max_length=60, blank=False)
     tipoPagadorPensiones = models.CharField(max_length=2, blank=False,
-        choices=TIPO_PAGADOR_PVAL
-    )
+                                            choices=TIPO_PAGADOR_PVAL
+                                            )
     actividadEconomica = models.CharField(max_length=4, blank=False)
 
     def __str__(self):
@@ -120,23 +121,26 @@ class Pensionado(models.Model):
     primerNombre = models.CharField(max_length=20, blank=False)
     segundoNombre = models.CharField(max_length=30, blank=True)
     tipoDocumento = models.CharField(max_length=2, blank=False,
-        choices=TIPO_DOC_PVAL
-    )
+                                     choices=TIPO_DOC_PVAL
+                                     )
     numeroDocumento = models.CharField(max_length=16, blank=False)
     tipoPension = models.CharField(max_length=2, blank=False,
-        choices=TIPO_PENSION_PVAL
-    )
+                                   choices=TIPO_PENSION_PVAL
+                                   )
     tipoPensionado = models.CharField(max_length=1, blank=False,
-        choices=TIPO_PENSIONADO_PVAL
-    )
+                                      choices=TIPO_PENSIONADO_PVAL
+                                      )
     pensionadoExterior = models.BooleanField(default=True, blank=False)
     grupoFamiliarColombia = models.BooleanField(default=True, blank=False)
-    ingresoBaseCotizacion = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
+    ingresoBaseCotizacion = models.DecimalField(max_digits=10,
+                                                decimal_places=2,
+                                                blank=False)
     actividadEconomica = models.CharField(max_length=4, blank=False)
     tarifaEspecial = models.CharField(max_length=1, blank=False,
-        choices=TARIFA_ESPECIAL_PVAL
-    )
-    empresaEmpleadora = models.ForeignKey(EmpresaEmpleadora, on_delete=models.CASCADE)
+                                      choices=TARIFA_ESPECIAL_PVAL
+                                      )
+    empresaEmpleadora = models.ForeignKey(EmpresaEmpleadora,
+                                          on_delete=models.CASCADE)
 
     def __str__(self):
         return self.primerApellido + " " + self.primerNombre
