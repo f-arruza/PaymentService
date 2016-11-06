@@ -3,5 +3,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^manager/', include('payment.urls')),
+    url(r'^payment/', include('payment.urls')),
 ]
