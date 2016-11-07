@@ -196,3 +196,34 @@ class Novedad(models.Model):
         label = label + self.pensionado.primerApellido + ' - '
         label = label + self.tipo
         return label
+
+
+class Banco(models.Model):
+    nombre = models.CharField(max_length=50, blank=False)
+
+    def __str__(self):
+        return self.nombre
+
+
+class PagoAporte(models.Model):
+    TIPO_PVAL = (
+        ('01', 'SALUD'),
+        ('02', 'PENSION'),
+        ('03', 'RIESGOS LABORALES'),
+    )
+    tipo = models.CharField(max_length=2, blank=False,
+                            choices=TIPO_PVAL
+                            )
+    periodoPago = models.CharField(max_length=7, blank=False)
+    monto = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
+    fechaPago = models.DateField(auto_now_add=True)
+    banco = models.ForeignKey(Banco, blank=False)
+    pensionado = models.ForeignKey(Pensionado,
+                                   on_delete=models.CASCADE,
+                                   related_name='pagos')
+
+    def __str__(self):
+        label = self.pensionado.primerNombre + ' '
+        label = label + self.pensionado.primerApellido + ' - '
+        label = label + self.tipo
+        return label
