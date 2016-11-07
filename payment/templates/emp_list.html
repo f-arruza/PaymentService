@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <link href="{% static "payment/css/plugins/dataTables/datatables.min.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">
+        <a href="{% url 'emp-list' %}">Aportantes</a>
+    </li>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Gestión de Aportantes</h5>
+                <div class="ibox-tools">
+                    <a href="{% url 'emp-create' %}" class="btn btn-primary" id="add_gender">Añadir Aportante</a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+                        <thead>
+                            <tr>
+                                <th>Razón Social</th>
+                                <th>Tipo.Doc</th>
+                                <th>Nro.Doc</th>
+                                <th>Tipo Persona</th>
+                                <th>Tipo Pagador</th>
+                                <th>Ciudad</th>
+                                <th>Estado</th>
+                                <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for emp in emp_list %}
+                            <tr class="gradeX">
+                                <td>{{ emp.nombreRazonSocial }}</td>
+                                <td>{{ emp.get_tipoDocumento_display }}</td>
+                                <td>{{ emp.numeroDocumento }}</td>
+                                <td>{{ emp.get_tipoPersona_display }}</td>
+                                <td>{{ emp.get_tipoPagadorPensiones_display }}</td>
+                                <td>{{ emp.ciudadMunicipio }}</td>
+                                <td>
+                                    {% if emp.active %}
+                                      <p><span class="label label-primary">Activo</span></p>
+                                    {% else %}
+                                      <p><span class="label label-danger">Inactivo</span></p>
+                                    {% endif %}
+                                </td>
+                                <td class="center">
+                                    <a href="{% url 'emp-update' emp.id %}" title="Editar" class="btn btn-xs btn-success">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                              <th>Razón Social</th>
+                              <th>Tipo.Doc</th>
+                              <th>Nro.Doc</th>
+                              <th>Tipo Persona</th>
+                              <th>Tipo Pagador</th>
+                              <th>Ciudad</th>
+                              <th>Estado</th>
+                              <th>Editar</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static "payment/js/plugins/dataTables/datatables.min.js" %}"></script>
+<script>
+  $('.dataTables-example').DataTable({
+      dom: '<"html5buttons"B>lTfgitp',
+      buttons: [
+          { extend: 'copy'},
+          {extend: 'csv'},
+          {extend: 'excel', title: 'Aportantes'},
+          {extend: 'pdf', title: 'Aportantes'},
+
+          {extend: 'print',
+           customize: function (win){
+                  $(win.document.body).addClass('white-bg');
+                  $(win.document.body).css('font-size', '10px');
+
+                  $(win.document.body).find('table')
+                          .addClass('compact')
+                          .css('font-size', 'inherit');
+          }
+          }
+      ]
+
+  });
+</script>
+{% endblock %}

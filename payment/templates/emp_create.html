@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block breadcrumb %}
+  <li>
+    <a href="{% url 'emp-list' %}">Aportantes</a>
+  </li>
+  <li class="active">
+    <a href="#">Crear</a>
+  </li>
+{% endblock %}
+
+{% block css %}
+    <link href="{% static "payment/css/plugins/chosen/chosen.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+	<div class="col-lg-12">
+	    <div class="ibox float-e-margins">
+	        <div class="ibox-title">
+	            <h5>Crear Aportante</h5>
+	        </div>
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                    <div class="alert alert-danger" style="width:50%;">
+                      <b>ERROR: </b>{{ error|escape }} - {{ field.name|escape }}
+                    </div>
+                  {% endfor %}
+              {% endfor %}
+          {% endif %}
+	        <div class="ibox-content">
+	            <form class="form-horizontal" method="post" action="{% url 'emp-create' %}">
+	            	{% csrf_token %}
+	                <div class="form-group"><label class="col-lg-2 control-label">Razón social:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="150" placeholder="Razón social" name="nombreRazonSocial" id="id_nombreRazonSocial" class="form-control" required>
+	                    </div>
+	                </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Tipo de documento:</label>
+                    <div class="col-lg-10">
+                        <select data-placeholder="Tipo de documento" class="chosen-select" style="width:300px;" tabindex="2" name="tipoDocumento" id="id_tipoDocumento" required>
+                          <option value="">Selecciona</option>
+                          <option value="NI">NIT</option>
+                          <option value="CC">CEDULA CIUDADANIA</option>
+                          <option value="CE">CEDULA EXTRANJERIA</option>
+                          <option value="PA">PASAPORTE</option>
+                          <option value="CD">CARNE DIPLOMATICO</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Número de Documento:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="16" placeholder="Número de documento" class="form-control" name="numeroDocumento" id="id_numeroDocumento" required>
+	                    </div>
+	                </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Clase de pagador:</label>
+                    <div class="col-lg-10">
+                        <select data-placeholder="Clase de pagador" class="chosen-select" style="width:300px;" tabindex="2" name="clasePagadorPensiones" id="id_clasePagadorPensiones" required>
+                          <option value="">Selecciona</option>
+                          <option value="A">PAGADOR CON MAS DE 200 PENSIONADOS</option>
+                          <option value="B">PAGADOR CON MENOS DE 200 PENSIONADOS</option>
+                          <option value="I">INDEPENDIENTE</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Naturaleza jurídica:</label>
+                    <div class="col-lg-10">
+                        <select data-placeholder="Naturaleza jurídica" class="chosen-select" style="width:300px;" tabindex="2" name="naturalezaJuridica" id="id_naturalezaJuridica" required>
+                          <option value="">Selecciona</option>
+                          <option value="1">PUBLICA</option>
+                          <option value="2">PRIVADA</option>
+                          <option value="3">MIXTA</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Tipo de persona:</label>
+                    <div class="col-lg-10">
+                        <select data-placeholder="Tipo de persona" class="chosen-select" style="width:300px;" tabindex="2" name="tipoPersona" id="id_tipoPersona" required>
+                          <option value="">Selecciona</option>
+                          <option value="N">NATURAL</option>
+                          <option value="J">JURIDICA</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Dirección:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="40" placeholder="Dirección" name="direccion" class="form-control" id="id_direccion" required>
+	                    </div>
+	                </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Ciudad:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="30" placeholder="Ciudad" name="ciudadMunicipio" class="form-control" id="id_ciudadMunicipio" required>
+	                    </div>
+	                </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Departamento:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="30" placeholder="Departamento" name="departamento" class="form-control" id="id_departamento" required>
+	                    </div>
+	                </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Teléfono:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="15" placeholder="Teléfono" name="telefono" class="form-control" id="id_telefono" required>
+	                    </div>
+	                </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Correo:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="60" placeholder="Correo" name="correo" class="form-control" id="id_correo" required>
+	                    </div>
+	                </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Tipo de pagador:</label>
+                    <div class="col-lg-10">
+                        <select data-placeholder="Tipo de pagador" class="chosen-select" style="width:300px;" tabindex="2" name="tipoPagadorPensiones" id="id_tipoPagadorPensiones" required>
+                          <option value="">Selecciona</option>
+                          <option value="1">EMPLEADOR</option>
+                          <option value="2">ADMINISTRADORA PENSIONES</option>
+                          <option value="3">PAGADOR PENSIONES</option>
+                          <option value="4">PENSIONES REGIMEN ESPECIAL</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="form-group"><label class="col-lg-2 control-label">Actividad económica:</label>
+	                    <div class="col-lg-10">
+	                    	<input type="text" max_length="4" placeholder="Actividad económica" name="actividadEconomica" class="form-control" id="id_actividadEconomica" required>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <div class="col-lg-offset-2 col-lg-10">
+	                        <button class="btn btn-sm btn-white" type="submit" id="emp_create">Crear</button>
+	                    </div>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static "payment/js/plugins/chosen/chosen.jquery.js" %}"></script>
+<script>
+  var config = {
+          '.chosen-select'           : {},
+          '.chosen-select-deselect'  : {allow_single_deselect:true},
+          '.chosen-select-no-single' : {disable_search_threshold:10},
+          '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+          '.chosen-select-width'     : {width:"95%"}
+          }
+      for (var selector in config) {
+          $(selector).chosen(config[selector]);
+      }
+</script>
+{% endblock %}

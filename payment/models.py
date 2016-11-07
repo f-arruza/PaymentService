@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -52,17 +53,34 @@ class EmpresaEmpleadora(models.Model):
                                    choices=TIPO_PERSONA_PVAL
                                    )
     direccion = models.CharField(max_length=40, blank=False)
-    ciudadMunicipio = models.CharField(max_length=3, blank=False)
-    departamento = models.CharField(max_length=2, blank=False)
+    ciudadMunicipio = models.CharField(max_length=30, blank=False)
+    departamento = models.CharField(max_length=30, blank=False)
     telefono = models.CharField(max_length=15, blank=False)
     correo = models.CharField(max_length=60, blank=False)
     tipoPagadorPensiones = models.CharField(max_length=2, blank=False,
                                             choices=TIPO_PAGADOR_PVAL
                                             )
     actividadEconomica = models.CharField(max_length=4, blank=False)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombreRazonSocial
+
+
+class Empleado(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='empl_user'
+    )
+
+    empresa = models.ForeignKey(
+        EmpresaEmpleadora,
+        on_delete=models.CASCADE,
+        related_name='empl_emp')
+
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name
 
 
 class Pensionado(models.Model):
@@ -141,6 +159,7 @@ class Pensionado(models.Model):
                                       )
     empresaEmpleadora = models.ForeignKey(EmpresaEmpleadora,
                                           on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.primerApellido + " " + self.primerNombre
