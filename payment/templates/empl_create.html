@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
   <li>
-    <a href="{% url 'empl-list' %}">Empleado</a>
+    <a href="{% url 'empl-list' %}">Operadores</a>
   </li>
   <li class="active">
     <a href="#">Crear</a>
@@ -19,7 +19,7 @@
 	<div class="col-lg-12">
 	    <div class="ibox float-e-margins">
 	        <div class="ibox-title">
-	            <h5>Crear Empleado / Usuario</h5>
+	            <h5>Crear Operador</h5>
 	        </div>
           {% if form.errors %}
               {% for field in form %}

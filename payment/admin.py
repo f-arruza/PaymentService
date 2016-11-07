@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import EmpresaEmpleadora, Empleado, Pensionado
+from .models import EmpresaEmpleadora, Empleado, Pensionado, Novedad
 
 
 # Register your models here.
@@ -17,3 +17,8 @@ class EmpleadoAdmin(admin.ModelAdmin):
 @admin.register(Pensionado)
 class PensionadoAdmin(admin.ModelAdmin):
     search_fields = ('tipoDocumento', 'numeroDocumento', )
+
+
+@admin.register(Novedad)
+class NovedadAdmin(admin.ModelAdmin):
+    search_fields = ('tipo', 'pensionado', )

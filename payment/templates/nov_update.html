@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block breadcrumb %}
+  <li>
+    <a href="{% url 'nov-list' %}">Novedades</a>
+  </li>
+  <li class="active">
+    <a href="#">Actualizar</a>
+  </li>
+{% endblock %}
+
+{% block css %}
+    <link href="{% static "payment/css/plugins/chosen/chosen.css" %}" rel="stylesheet">
+    <link href="{% static "payment/css/plugins/datapicker/datepicker3.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+	<div class="col-lg-12">
+	    <div class="ibox float-e-margins">
+	        <div class="ibox-title">
+	            <h5>Actualizar Novedad</h5>
+	        </div>
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                    <div class="alert alert-danger" style="width:50%;">
+                      <b>ERROR: </b>{{ error|escape }} - {{ field.name|escape }}
+                    </div>
+                  {% endfor %}
+              {% endfor %}
+          {% endif %}
+	        <div class="ibox-content">
+              {% if mensaje %}
+                    <div class="alert alert-danger">
+                        {{ mensaje }}
+                    </div>
+              {% endif %}
+	            <form class="form-horizontal" method="post" action="{% url 'nov-update' nov.id %}">
+	            	{% csrf_token %}
+                <div class="form-group"><label class="col-lg-2 control-label">Pensionado:</label>
+                  <div class="col-lg-10">
+                      <select data-placeholder="Empresa Empleadora" class="chosen-select" style="width:300px;" tabindex="2" name="pensionado" id="id_pensionado" required>
+                        <option value="">Selecciona</option>
+                        {% for pen in pen_list %}
+                        <option value="{{ pen.id }}" {% if nov.pensionado.id == pen.id %} selected="true" {% endif %}>{{ pen }}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group" id="data_1"><label class="col-lg-2 control-label">Fecha Inicio:</label>
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="fechaInicio" value="{{ nov.fechaInicio|date:"Y-m-d" }}">
+                    </div>
+                </div>
+                <div class="form-group" id="data_2"><label class="col-lg-2 control-label">Fecha Fin:</label>
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="fechaFin" value="{{ nov.fechaFin|date:"Y-m-d" }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Duración (días):</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" data-mask="999" placeholder="" name="duracion" id="id_duracion" value="{{ nov.duracion }}">
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Tipo:</label>
+                  <div class="col-lg-10">
+                      <select data-placeholder="Tipo de documento" class="chosen-select" style="width:300px;" tabindex="2" name="tipo" id="id_tipo" required>
+                        <option value="">Selecciona</option>
+                        <option value="01" {% if nov.tipo == '01' %} selected {% endif %}>TRASLADO</option>
+                        <option value="02" {% if nov.tipo == '02' %} selected {% endif %}>VARIACION TRANSITORIA DEL SALARIO</option>
+                        <option value="03" {% if nov.tipo == '03' %} selected {% endif %}>SLN - SUSPENSION TEMPORAL, LICENCIA NO REMMUNERADA O COMISION DE SERVICIOS</option>
+                        <option value="04" {% if nov.tipo == '04' %} selected {% endif %}>INCAPACIDAD TEMPORAL POR ENFERMEDAD</option>
+                        <option value="05" {% if nov.tipo == '05' %} selected {% endif %}>LICENCIA DE MATERNIDAD O PATERNIDAD</option>
+                        <option value="06" {% if nov.tipo == '06' %} selected {% endif %}>VACACIONES</option>
+                        <option value="07" {% if nov.tipo == '07' %} selected {% endif %}>LICENCIA REMUNEDARA</option>
+                        <option value="08" {% if nov.tipo == '08' %} selected {% endif %}>APORTE VOLUNTARIO A PENSIONES</option>
+                        <option value="09" {% if nov.tipo == '09' %} selected {% endif %}>SUSPENSION</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <div class="i-checks"><label><input type="checkbox" name="procesada" id="id_procesada" {% if nov.procesada %}checked{% endif %}><i></i> ¿Ya fue procesada? </label></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <div class="i-checks"><label><input type="checkbox" name="active" id="id_active" {% if nov.active %}checked{% endif %}><i></i> Activa </label></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button class="btn btn-sm btn-white" type="submit" id="nov_update">Actualizar</button>
+                    </div>
+                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static "payment/js/plugins/chosen/chosen.jquery.js" %}"></script>
+<!-- Input Mask-->
+ <script src="{% static "payment/js/plugins/jasny/jasny-bootstrap.min.js" %}"></script>
+ <script src="{% static "payment/js/plugins/datapicker/bootstrap-datepicker.js" %}"></script>
+<script>
+  $('#data_1 .input-group.date').datepicker({
+      todayBtn: "linked",
+      keyboardNavigation: false,
+      forceParse: false,
+      calendarWeeks: true,
+      autoclose: true,
+      format: 'yyyy-mm-dd'
+  });
+  $('#data_2 .input-group.date').datepicker({
+      todayBtn: "linked",
+      keyboardNavigation: false,
+      forceParse: false,
+      calendarWeeks: true,
+      autoclose: true,
+      format: 'yyyy-mm-dd'
+  });
+  var config = {
+          '.chosen-select'           : {},
+          '.chosen-select-deselect'  : {allow_single_deselect:true},
+          '.chosen-select-no-single' : {disable_search_threshold:10},
+          '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+          '.chosen-select-width'     : {width:"95%"}
+          }
+      for (var selector in config) {
+          $(selector).chosen(config[selector]);
+      }
+</script>
+{% endblock %}

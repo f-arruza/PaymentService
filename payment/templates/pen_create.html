@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block breadcrumb %}
+  <li>
+    <a href="{% url 'pen-list' %}">Pensionados</a>
+  </li>
+  <li class="active">
+    <a href="#">Crear</a>
+  </li>
+{% endblock %}
+
+{% block css %}
+    <link href="{% static "payment/css/plugins/chosen/chosen.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+	<div class="col-lg-12">
+	    <div class="ibox float-e-margins">
+	        <div class="ibox-title">
+	            <h5>Crear Pensionado</h5>
+	        </div>
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                    <div class="alert alert-danger" style="width:50%;">
+                      <b>ERROR: </b>{{ error|escape }} - {{ field.name|escape }}
+                    </div>
+                  {% endfor %}
+              {% endfor %}
+          {% endif %}
+	        <div class="ibox-content">
+              {% if mensaje %}
+                    <div class="alert alert-danger">
+                        {{ mensaje }}
+                    </div>
+              {% endif %}
+	            <form class="form-horizontal" method="post" action="{% url 'pen-create' %}">
+	            	{% csrf_token %}
+                <div class="form-group"><label class="col-lg-2 control-label">Aportante:</label>
+                  <div class="col-lg-10">
+                      <select data-placeholder="Empresa Empleadora" class="chosen-select" style="width:300px;" tabindex="2" name="empresaEmpleadora" id="id_empresaEmpleadora" required>
+                        <option value="">Selecciona</option>
+                        {% for emp in emp_list %}
+                        <option value="{{ emp.id }}">{{ emp.nombreRazonSocial }}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Primer Nombre:</label>
+                    <div class="col-lg-10">
+                      <input type="text" placeholder="Primer Nombre" name="primerNombre" class="form-control" max_length="20">
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Segundo Nombre:</label>
+                    <div class="col-lg-10">
+                      <input type="text" placeholder="Segundo Nombre" name="segundoNombre" class="form-control" max_length="30">
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Primer Apellido:</label>
+                    <div class="col-lg-10">
+                      <input type="text" placeholder="Primer Apellido" name="primerApellido" class="form-control" max_length="20">
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Segundo Apellido:</label>
+                    <div class="col-lg-10">
+                      <input type="text" placeholder="Segundo Apellido" name="segundoApellido" class="form-control" max_length="30">
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Tipo de documento:</label>
+                  <div class="col-lg-10">
+                      <select data-placeholder="Tipo de documento" class="chosen-select" style="width:300px;" tabindex="2" name="tipoDocumento" id="id_tipoDocumento" required>
+                        <option value="">Selecciona</option>
+                        <option value="CC">CEDULA CIUDADANIA</option>
+                        <option value="CE">CEDULA EXTRANJERIA</option>
+                        <option value="TI">TARJETA IDENTIDAD</option>
+                        <option value="RC">REGISTRO CIVIL</option>
+                        <option value="PA">PASAPORTE</option>
+                        <option value="CD">CARNE DIPLOMATICO</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Número de Documento:</label>
+                    <div class="col-lg-10">
+                      <input type="text" max_length="16" placeholder="Número de documento" class="form-control" name="numeroDocumento" id="id_numeroDocumento" required>
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Tipo de pensión:</label>
+                  <div class="col-lg-10">
+                      <select data-placeholder="Tipo de pensión" class="chosen-select" style="width:300px;" tabindex="2" name="tipoPension" id="id_tipoPension" required>
+                        <option value="">Selecciona</option>
+                        <option value="1">VEJEZ</option>
+                        <option value="2">SOBREVIVENCIA VITALICIA RIESGO COMUN</option>
+                        <option value="3">SOBREVIVENCIA TEMPORAL RIESGO COMUN</option>
+                        <option value="4">SOBREVIVENCIA TEMPORAL RIESGO COMUN, CONYUGE O COMPAÑERA(O) MENOR DE 30 AÑOS SIN HIJOS</option>
+                        <option value="5">SOBREVIVENCIA VITALICIA RIESGO LABORAL</option>
+                        <option value="6">SOBREVIVENCIA TEMPORAL RIESGO COMUN</option>
+                        <option value="7">SOBREVIVENCIA TEMPORAL RIESGO LABORAL, CONYUGE O COMPAÑERA(O) MENOR DE 30 AÑOS SIN HIJOS</option>
+                        <option value="8">INVALIDEZ RIESGO COMUN</option>
+                        <option value="9">INVALIDEZ RIESGO LABORAL</option>
+                        <option value="10">JUBILACION</option>
+                        <option value="11">JUBILACION PARA COMPARTIR</option>
+                        <option value="12">SANCION</option>
+                        <option value="13">CONVENCIONAL</option>
+                        <option value="14">CONVENCIONAL PARA COMPARTIR</option>
+                        <option value="15">GRACIA</option>
+                        <option value="16">POR CONVENIO INTERNACIONAL</option>
+                        <option value="20">SENTENCIA JUDICIAL</option>
+                        <option value="21">CONCILIACIONES</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Tipo de pensionado:</label>
+                  <div class="col-lg-10">
+                      <select data-placeholder="Tipo de pensionado" class="chosen-select" style="width:300px;" tabindex="2" name="tipoPensionado" id="id_tipoPensionado" required>
+                        <option value="">Selecciona</option>
+                        <option value="1">REGIMEN PRIMA MEDIA, CON TOPE DE PENSION 25 SMMLV</option>
+                        <option value="2">REGIMEN PRIMA MEDIA, SIN TOPE MAXIMO DE PENSION</option>
+                        <option value="3">REGIMEN DE AHORRO INDIVIDUAL</option>
+                        <option value="4">RIESGOS LABORALES, CON TOPE DE PENSION 25 SMMLV</option>
+                        <option value="5">POR EL EMPLEADOR, CON TOPE DE PENSION 25 SMMLV</option>
+                        <option value="6">POR EL EMPLEADOR, SIN TOPE MAXIMA DE PENSION</option>
+                        <option value="7">REGIMENES ESPECIAL O EXCEPCION, CON TOPE DE PENSION 25 SMMLV</option>
+                        <option value="8">REGIMENES ESPECIAL O EXCEPCION, SIN TOPE MAXIMA DE PENSION</option>
+                        <option value="9">BENEFICIO UPC ADICIONAL</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <div class="i-checks"><label><input type="checkbox" name="pensionadoExterior" id="is_pensionadoExterior"><i></i> ¿Reside en el exterior? </label></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <div class="i-checks"><label><input type="checkbox" name="grupoFamiliarColombia" id="is_grupoFamiliarColombia"><i></i> ¿Tiene grupo familiar en Colombia? </label></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Ingreso Base ($):</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" data-mask="99999999.99" placeholder="" name="ingresoBaseCotizacion" id="id_ingresoBaseCotizacion">
+                        <span class="help-block">$ 99,999,999.99</span>
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Actividad económica:</label>
+                    <div class="col-lg-10">
+                      <input type="text" max_length="4" placeholder="Actividad económica" name="actividadEconomica" class="form-control" id="id_actividadEconomica" required>
+                    </div>
+                </div>
+                <div class="form-group"><label class="col-lg-2 control-label">Tarifa especial:</label>
+                  <div class="col-lg-10">
+                      <select data-placeholder="Tarifa especial" class="chosen-select" style="width:300px;" tabindex="2" name="tarifaEspecial" id="id_tarifaEspecial">
+                        <option value="">Selecciona</option>
+                        <option value="1">ACTIVIDADES ALTO RIESGO</option>
+                        <option value="2">SENADOR</option>
+                        <option value="3">CTI</option>
+                        <option value="4">AVIADOR</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button class="btn btn-sm btn-white" type="submit" id="pen_create">Crear</button>
+                    </div>
+                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static "payment/js/plugins/chosen/chosen.jquery.js" %}"></script>
+<!-- Input Mask-->
+ <script src="{% static "payment/js/plugins/jasny/jasny-bootstrap.min.js" %}"></script>
+<script>
+  var config = {
+          '.chosen-select'           : {},
+          '.chosen-select-deselect'  : {allow_single_deselect:true},
+          '.chosen-select-no-single' : {disable_search_threshold:10},
+          '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+          '.chosen-select-width'     : {width:"95%"}
+          }
+      for (var selector in config) {
+          $(selector).chosen(config[selector]);
+      }
+</script>
+{% endblock %}

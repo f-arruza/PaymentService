@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 # Código Dinámico
-from .models import EmpresaEmpleadora, Pensionado, Empleado
+from .models import EmpresaEmpleadora, Pensionado, Empleado, Novedad
 from .serializers import (EmpresaEmpleadoraSerializer, PensionadoSerializer,
                           PensionadoCreateUpdateSerializer)
 
@@ -259,7 +259,36 @@ def actualizar_empleado(request, id_user):
 class PensionadoListView(ListView):
     model = Pensionado
     template_name = 'pen_list.html'
-    context_object_name = 'pen-list'
+    context_object_name = 'pen_list'
+
+    def get_queryset(self):
+        pempresa = self.request.GET.get('empresa')
+
+        queryset = ""
+        if pempresa:
+            queryset = Pensionado.objects.filter(
+                empresaEmpleadora=pempresa)
+        else:
+            if self.request.user.is_staff:
+                queryset = Pensionado.objects.all()
+            else:
+                empl = Empleado.objects.get(user_id=self.request.user.id)
+                queryset = Pensionado.objects.filter(
+                    empresaEmpleadora=empl.empresa)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(PensionadoListView,
+                        self).get_context_data(**kwargs)
+        empl = ""
+        if self.request.user.is_staff:
+            context['emp_list'] = EmpresaEmpleadora.objects.all()
+        else:
+            empl = Empleado.objects.filter(user_id=self.request.user.id)
+            context['emp_list'] = EmpresaEmpleadora.objects.filter(
+                    empl_emp__in=empl
+                    )
+        return context
 
 
 # Código Dinámico
@@ -284,6 +313,19 @@ class PensionadoCreateView(CreateView):
         'tarifaEspecial',
         'empresaEmpleadora',
     ]
+
+    def get_context_data(self, **kwargs):
+        context = super(PensionadoCreateView,
+                        self).get_context_data(**kwargs)
+        empl = ""
+        if self.request.user.is_staff:
+            context['emp_list'] = EmpresaEmpleadora.objects.all()
+        else:
+            empl = Empleado.objects.filter(user_id=self.request.user.id)
+            context['emp_list'] = EmpresaEmpleadora.objects.filter(
+                    empl_emp__in=empl
+                    )
+        return context
 
     def get_success_url(self):
         return reverse('pen-list')
@@ -315,6 +357,125 @@ class PensionadoUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('pen-list')
+
+    def get_context_data(self, **kwargs):
+        context = super(PensionadoUpdateView,
+                        self).get_context_data(**kwargs)
+        empl = ""
+        if self.request.user.is_staff:
+            context['emp_list'] = EmpresaEmpleadora.objects.all()
+        else:
+            empl = Empleado.objects.filter(user_id=self.request.user.id)
+            context['emp_list'] = EmpresaEmpleadora.objects.filter(
+                    empl_emp__in=empl
+                    )
+        return context
+
+
+# Código Dinámico
+@method_decorator(login_required, name='dispatch')
+class NovedadListView(ListView):
+    model = Novedad
+    template_name = 'nov_list.html'
+    context_object_name = 'nov_list'
+
+    def get_queryset(self):
+        pempresa = self.request.GET.get('empresa')
+
+        queryset = ""
+        if pempresa:
+            queryset = Novedad.objects.filter(
+                    pensionado__in=Pensionado.objects.filter(
+                        empresaEmpleadora_id=pempresa)
+                    )
+        else:
+            if self.request.user.is_staff:
+                queryset = Novedad.objects.all()
+            else:
+                empl = Empleado.objects.get(user_id=self.request.user.id)
+                queryset = Novedad.objects.filter(
+                        pensionado__in=Pensionado.objects.filter(
+                            empresaEmpleadora_id=empl)
+                        )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(NovedadListView,
+                        self).get_context_data(**kwargs)
+        empl = ""
+        if self.request.user.is_staff:
+            context['emp_list'] = EmpresaEmpleadora.objects.all()
+        else:
+            empl = Empleado.objects.filter(user_id=self.request.user.id)
+            context['emp_list'] = EmpresaEmpleadora.objects.filter(
+                    empl_emp__in=empl
+                    )
+        return context
+
+
+# Código Dinámico
+@method_decorator(login_required, name='dispatch')
+class NovedadCreateView(CreateView):
+    model = Novedad
+    template_name = 'nov_create.html'
+    context_object_name = 'nov'
+    fields = [
+        'fechaInicio',
+        'fechaFin',
+        'tipo',
+        'procesada',
+        'duracion',
+        'pensionado',
+    ]
+
+    def get_context_data(self, **kwargs):
+        context = super(NovedadCreateView,
+                        self).get_context_data(**kwargs)
+        empl = ""
+        if self.request.user.is_staff:
+            context['pen_list'] = Pensionado.objects.filter(active=True)
+        else:
+            empl = Empleado.objects.filter(user_id=self.request.user.id)
+            context['pen_list'] = Pensionado.objects.filter(
+                active=True,
+                empresaEmpleadora_id=empl)
+        return context
+
+    def get_success_url(self):
+        return reverse('nov-list')
+
+
+# Código Dinámico
+@method_decorator(login_required, name='dispatch')
+class NovedadUpdateView(UpdateView):
+    model = Novedad
+    template_name = 'nov_update.html'
+    context_object_name = 'nov'
+    fields = [
+        'fechaInicio',
+        'fechaFin',
+        'tipo',
+        'procesada',
+        'duracion',
+        'pensionado',
+        'active',
+    ]
+
+    def get_context_data(self, **kwargs):
+        context = super(NovedadUpdateView,
+                        self).get_context_data(**kwargs)
+        empl = ""
+        if self.request.user.is_staff:
+            context['pen_list'] = Pensionado.objects.filter(active=True)
+        else:
+            empl = Empleado.objects.filter(user_id=self.request.user.id)
+            context['pen_list'] = Pensionado.objects.filter(
+                active=True,
+                empresaEmpleadora_id=empl)
+        return context
+
+    def get_success_url(self):
+        return reverse('nov-list')
 
 
 # Código Dinámico

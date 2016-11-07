@@ -11,7 +11,13 @@ from .views import (EmpresaEmpleadoraListAPIView,
                     PensionadoUpdateAPIView,
                     PensionadoListView,
                     PensionadoCreateView,
-                    PensionadoUpdateView)
+                    PensionadoUpdateView,
+                    empleadoCreate,
+                    empleadoUpdate,
+                    NovedadListView,
+                    NovedadCreateView,
+                    NovedadUpdateView)
+from django.views.decorators.csrf import csrf_exempt
 
 
 class EmpresaEmpleadoraListAPIViewImpl(EmpresaEmpleadoraListAPIView):
@@ -82,3 +88,28 @@ class PensionadoCreateViewImpl(PensionadoCreateView):
 class PensionadoUpdateViewImpl(PensionadoUpdateView):
     def __init__(self):
         PensionadoUpdateView.__init__(self)
+
+
+@csrf_exempt
+def empleadoCreateImpl(request):
+    return empleadoCreate(request)
+
+
+@csrf_exempt
+def empleadoUpdateImpl(request, pk):
+    return empleadoUpdate(request, pk)
+
+
+class NovedadListViewImpl(NovedadListView):
+        def __init__(self):
+            NovedadListView.__init__(self)
+
+
+class NovedadCreateViewImpl(NovedadCreateView):
+        def __init__(self):
+            NovedadCreateView.__init__(self)
+
+
+class NovedadUpdateViewImpl(NovedadUpdateView):
+        def __init__(self):
+            PensionadoUpdateView.__init__(self)

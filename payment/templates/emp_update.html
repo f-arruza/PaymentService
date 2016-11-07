@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
   <li>
-    <a href="{% url 'emp-list' %}">Aportantes</a>
+    <a href="{% url 'emp-list' %}">Operadores</a>
   </li>
   <li class="active">
     <a href="#">Actualizar</a>
@@ -19,7 +19,7 @@
 	<div class="col-lg-12">
 	    <div class="ibox float-e-margins">
 	        <div class="ibox-title">
-	            <h5>Actualizar Aportante</h5>
+	            <h5>Actualizar Operador</h5>
 	        </div>
           {% if form.errors %}
               {% for field in form %}

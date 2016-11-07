@@ -154,12 +154,45 @@ class Pensionado(models.Model):
                                                 decimal_places=2,
                                                 blank=False)
     actividadEconomica = models.CharField(max_length=4, blank=False)
-    tarifaEspecial = models.CharField(max_length=1, blank=False,
+    tarifaEspecial = models.CharField(max_length=1, blank=True,
                                       choices=TARIFA_ESPECIAL_PVAL
                                       )
     empresaEmpleadora = models.ForeignKey(EmpresaEmpleadora,
-                                          on_delete=models.CASCADE)
+                                          on_delete=models.CASCADE,
+                                          related_name='pen_emp')
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.primerApellido + " " + self.primerNombre
+        return self.primerNombre + " " + self.primerApellido
+
+
+class Novedad(models.Model):
+    TIPO_PVAL = (
+        ('01', 'TRASLADO'),
+        ('02', 'VARIACION TRANSITORIA DEL SALARIO'),
+        ('03', 'SLN - SUSPENSION TEMPORAL, LICENCIA NO REMMUNERADA O COMISION DE SERVICIOS'),
+        ('04', 'INCAPACIDAD TEMPORAL POR ENFERMEDAD'),
+        ('05', 'LICENCIA DE MATERNIDAD O PATERNIDAD'),
+        ('06', 'VACACIONES'),
+        ('07', 'LICENCIA REMUNEDARA'),
+        ('08', 'APORTE VOLUNTARIO A PENSIONES'),
+        ('09', 'SUSPENSION'),
+    )
+    fechaInicio = models.DateField(null=False, blank=False)
+    fechaFin = models.DateField(null=False, blank=False)
+    fechaCreacion = models.DateField(auto_now_add=True)
+    tipo = models.CharField(max_length=2, blank=False,
+                            choices=TIPO_PVAL
+                            )
+    procesada = models.BooleanField(default=False)
+    duracion = models.IntegerField(blank=False)
+    pensionado = models.ForeignKey(Pensionado,
+                                   on_delete=models.CASCADE,
+                                   related_name='novedades')
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        label = self.pensionado.primerNombre + ' '
+        label = label + self.pensionado.primerApellido + ' - '
+        label = label + self.tipo
+        return label
