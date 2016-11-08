@@ -9,3 +9,4 @@ travis==0.0.2
 gunicorn==18.0
 dj-static==0.0.6
 static3==0.5.1
+boto==2.42.0
