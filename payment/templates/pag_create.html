@@ -42,7 +42,7 @@
                 <div class="form-group"><label class="col-lg-2 control-label">Pensionado:</label>
                   <div class="col-lg-10">
                       <select data-placeholder="Empresa Empleadora" class="chosen-select" style="width:300px;" tabindex="2" name="pensionado" id="id_pensionado" required>
-                        <option value="">Selecciona</option>
+                        <option value="0">Selecciona</option>
                         {% for pen in pen_list %}
                         <option value="{{ pen.id }}">{{ pen }}</option>
                         {% endfor %}
@@ -52,7 +52,7 @@
                 <div class="form-group"><label class="col-lg-2 control-label">Tipo:</label>
                   <div class="col-lg-10">
                       <select data-placeholder="Tipo" class="chosen-select" style="width:300px;" tabindex="2" name="tipo" id="id_tipo" required>
-                        <option value="">Selecciona</option>
+                        <option value="0">Selecciona</option>
                         <option value="01">SALUD</option>
                         <option value="02">PENSION</option>
                         <option value="03">RIESGOS LABORALES</option>
@@ -69,8 +69,8 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Monto ($):</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" disabled data-mask="99999999.99" placeholder="" name="monto" id="id_monto">
-                        <span class="help-block">$ 99,999,999.99</span>
+                        <input type="hidden" class="form-control" placeholder="" name="monto" id="id_monto">
+                        <input type="text" disabled class="form-control" placeholder="" name="monto_v" id="id_monto_v">
                     </div>
                 </div>
                 <div class="form-group"><label class="col-lg-2 control-label">Banco:</label>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button class="btn btn-sm btn-white" type="submit" id="pag_liquidar">Liquidar</button>
+                        <button class="btn btn-sm btn-white" type="button" id="pag_liquidar">Liquidar</button>
                         <button class="btn btn-sm btn-white" type="submit" id="pag_create">Pagar</button>
                     </div>
                 </div>
@@ -127,5 +127,20 @@
       for (var selector in config) {
           $(selector).chosen(config[selector]);
       }
+
+   $('#pag_liquidar').on('click', function() {
+     var pensionado_id = $('#id_pensionado').val();
+     var tipo_id = $('#id_tipo').val();
+
+     if(pensionado_id == "0" || tipo_id == "0") {
+         alert('Debe seleccionar el pensionado y el tipo de aporte.');
+     }
+     else {
+       $.get("/payment/pag-calculate/?pen="+pensionado_id+"&tipo="+tipo_id, function( data ) {
+          $('#id_monto').val(data);
+          $('#id_monto_v').val(data);
+       });
+     }
+   });
 </script>
 {% endblock %}

@@ -638,11 +638,12 @@ class PensionadoUpdateAPIView(UpdateAPIView):
 
 
 @csrf_exempt
-def test_code(request):
-    mensaje = "HOLA: "
+def paymentCalculate(request):
+    pensionado = request.GET.get('pen')
+    tipo = request.GET.get('tipo')
+
     py = PayingRules()
+    tarifa = py.calculate(pensionado, tipo)
+    tarifa_str = str(tarifa)
 
-    tarifa = py.calculate(1, '03')
-    mensaje = mensaje + str(tarifa)
-
-    return render(request, 'test.html', {'mensaje': mensaje})
+    return render(request, 'paymentCalculate.html', {'body': tarifa_str})

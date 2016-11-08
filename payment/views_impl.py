@@ -19,7 +19,7 @@ from .views import (EmpresaEmpleadoraListAPIView,
                     NovedadUpdateView,
                     PagosListView,
                     PagosCreateView,
-                    test_code)
+                    paymentCalculate)
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -129,5 +129,5 @@ class PagosCreateViewImpl(PagosCreateView):
 
 
 @csrf_exempt
-def test_codeImpl(request):
-    return test_code(request)
+def paymentCalculateImpl(request):
+    return paymentCalculate(request)

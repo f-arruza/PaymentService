@@ -24,7 +24,7 @@ from .views_impl import (EmpresaEmpleadoraListAPIViewImpl,
                          NovedadUpdateViewImpl,
                          PagosListViewImpl,
                          PagosCreateViewImpl,
-                         test_codeImpl)
+                         paymentCalculateImpl)
 
 urlpatterns = [
     url(
@@ -84,6 +84,6 @@ urlpatterns = [
         name='pag-list'),
     url(r'^pag-create/$', PagosCreateViewImpl.as_view(),
         name='pag-create'),
-    url(r'^pag/$', test_codeImpl,
-        name='pag'),
+    url(r'^pag-calculate/$', paymentCalculateImpl,
+        name='pag-calculate'),
 ]
