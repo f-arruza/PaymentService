@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <link href="{% static "payment/css/plugins/dataTables/datatables.min.css" %}" rel="stylesheet">
+    <link href="{% static "payment/css/plugins/chosen/chosen.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">
+        <a href="{% url 'pag-list' %}">Pagos</a>
+    </li>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Gestión de Pagos</h5>
+                {% if not user.is_staff %}
+                <div class="ibox-tools">
+                    <a href="{% url 'pag-create' %}" class="btn btn-primary" id="add_gender">Pagar</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <form role="form" class="form-inline" action"{%  url 'pag-list' %}" method="get">
+                        <label class="font-noraml">Empresa empleadora:</label>
+                        <div class="checkbox m-r-xs">
+                            <select data-placeholder="Selecciona empresa" class="chosen-select" style="width:200px;" tabindex="2" name="empresa">
+                              <option value="">Selecciona</option>
+                              {% for emp in emp_list %}
+                              <option value="{{ emp.id }}">{{ emp.nombreRazonSocial }}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <label class="font-noraml">Pensionado:</label>
+                        <div class="checkbox m-r-xs">
+                            <select data-placeholder="Selecciona empresa" class="chosen-select" style="width:300px;" tabindex="2" name="pensionado">
+                              <option value="">Selecciona</option>
+                              {% for pen in pen_list %}
+                              <option value="{{ pen.id }}" {% if spen == pen.id %} selected="true" {% endif %}>{{ pen }}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-white" type="submit">Buscar</button>
+                    </form>
+                    <br>
+                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+                        <thead>
+                            <tr>
+                                <th>Pensionado</th>
+                                <th>Tipo</th>
+                                <th>Período</th>
+                                <th>Fecha</th>
+                                <th>Banco</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pag in pag_list %}
+                            <tr class="gradeX">
+                                <td>{{ pag.pensionado }}</td>
+                                <td>{{ pag.get_tipo_display }}</td>
+                                <td>{{ pag.periodoPago }}</td>
+                                <td>{{ pag.fechaPago }}</td>
+                                <td>{{ pag.banco }}</td>
+                                <td>{{ pag.monto }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                              <th>Pensionado</th>
+                              <th>Tipo</th>
+                              <th>Período</th>
+                              <th>Fecha</th>
+                              <th>Banco</th>
+                              <th>Monto</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static "payment/js/plugins/dataTables/datatables.min.js" %}"></script>
+<script src="{% static "payment/js/plugins/chosen/chosen.jquery.js" %}"></script>
+<script>
+  var config = {
+        '.chosen-select'           : {},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {width:"95%"}
+        }
+  for (var selector in config) {
+      $(selector).chosen(config[selector]);
+  }
+  $('.dataTables-example').DataTable({
+      dom: '<"html5buttons"B>lTfgitp',
+      buttons: [
+          { extend: 'copy'},
+          {extend: 'csv'},
+          {extend: 'excel', title: 'Empleados'},
+          {extend: 'pdf', title: 'Empleados'},
+
+          {extend: 'print',
+           customize: function (win){
+                  $(win.document.body).addClass('white-bg');
+                  $(win.document.body).css('font-size', '10px');
+
+                  $(win.document.body).find('table')
+                          .addClass('compact')
+                          .css('font-size', 'inherit');
+          }
+          }
+      ]
+
+  });
+</script>
+{% endblock %}

@@ -21,7 +21,10 @@ from .views_impl import (EmpresaEmpleadoraListAPIViewImpl,
                          empleadoUpdateImpl,
                          NovedadListViewImpl,
                          NovedadCreateViewImpl,
-                         NovedadUpdateViewImpl)
+                         NovedadUpdateViewImpl,
+                         PagosListViewImpl,
+                         PagosCreateViewImpl,
+                         test_codeImpl)
 
 urlpatterns = [
     url(
@@ -71,11 +74,16 @@ urlpatterns = [
         name='pen-create'),
     url(r'^pen-update/(?P<pk>\d+)/$', PensionadoUpdateViewImpl.as_view(),
         name='pen-update'),
-
     url(r'^nov-list/$', NovedadListViewImpl.as_view(),
         name='nov-list'),
     url(r'^nov-create/$', NovedadCreateViewImpl.as_view(),
         name='nov-create'),
     url(r'^nov-update/(?P<pk>\d+)/$', NovedadUpdateViewImpl.as_view(),
         name='nov-update'),
+    url(r'^pag-list/$', PagosListViewImpl.as_view(),
+        name='pag-list'),
+    url(r'^pag-create/$', PagosCreateViewImpl.as_view(),
+        name='pag-create'),
+    url(r'^pag/$', test_codeImpl,
+        name='pag'),
 ]

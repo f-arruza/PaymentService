@@ -16,7 +16,10 @@ from .views import (EmpresaEmpleadoraListAPIView,
                     empleadoUpdate,
                     NovedadListView,
                     NovedadCreateView,
-                    NovedadUpdateView)
+                    NovedadUpdateView,
+                    PagosListView,
+                    PagosCreateView,
+                    test_code)
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -101,15 +104,30 @@ def empleadoUpdateImpl(request, pk):
 
 
 class NovedadListViewImpl(NovedadListView):
-        def __init__(self):
-            NovedadListView.__init__(self)
+    def __init__(self):
+        NovedadListView.__init__(self)
 
 
 class NovedadCreateViewImpl(NovedadCreateView):
-        def __init__(self):
-            NovedadCreateView.__init__(self)
+    def __init__(self):
+        NovedadCreateView.__init__(self)
 
 
 class NovedadUpdateViewImpl(NovedadUpdateView):
-        def __init__(self):
-            PensionadoUpdateView.__init__(self)
+    def __init__(self):
+        PensionadoUpdateView.__init__(self)
+
+
+class PagosListViewImpl(PagosListView):
+    def __init__(self):
+        PagosListView.__init__(self)
+
+
+class PagosCreateViewImpl(PagosCreateView):
+    def __init__(self):
+        PagosCreateView.__init__(self)
+
+
+@csrf_exempt
+def test_codeImpl(request):
+    return test_code(request)
