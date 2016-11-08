@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     'payment',
     'corsheaders',
     'bootstrap3',
+    'storages',
 ]
 
 MIDDLEWARE = [
