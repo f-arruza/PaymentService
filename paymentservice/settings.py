@@ -102,5 +102,5 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_HOST = os.environ['AWS_S3_HOST']
 
 STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'farruza.custom_storages.StaticStorage'
+STATICFILES_STORAGE = 'freeven.custom_storages.StaticStorage'
 STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
