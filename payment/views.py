@@ -9,12 +9,11 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+
 # Código Dinámico
-from .models import (EmpresaEmpleadora, Pensionado, Empleado, Novedad,
-                     PagoAporte, Banco)
-from .serializers import (EmpresaEmpleadoraSerializer, PensionadoSerializer,
-                          PensionadoCreateUpdateSerializer)
-from .payingrules import PayingRules
+from .models import *
+from .serializers import *
+from payment.implements.payingrules_impl import PayingRulesImpl
 
 
 @method_decorator(login_required, name='dispatch')
@@ -101,7 +100,6 @@ class EmpleadoListView(ListView):
             else:
                 empl = Empleado.objects.get(user_id=self.request.user.id)
                 queryset = Empleado.objects.filter(empresa=empl.empresa)
-        print(queryset)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -578,8 +576,6 @@ class EmpresaEmpleadoraListAPIView(ListAPIView):
     queryset = EmpresaEmpleadora.objects.all()
     serializer_class = EmpresaEmpleadoraSerializer
 
-    # permission_classes = (IsAuthenticated,)
-
     filter_backends = (filters.SearchFilter,)
     search_fields = (
         'id',
@@ -591,14 +587,10 @@ class EmpresaEmpleadoraCreateAPIView(CreateAPIView):
     queryset = EmpresaEmpleadora.objects.all()
     serializer_class = EmpresaEmpleadoraSerializer
 
-    # permission_classes = (IsAuthenticated,)
-
 
 # Código Dinámico
 class EmpresaEmpleadoraUpdateAPIView(UpdateAPIView):
     serializer_class = EmpresaEmpleadoraSerializer
-
-    # permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         emp = EmpresaEmpleadora.objects.filter(pk=self.kwargs['pk'])
@@ -609,8 +601,6 @@ class EmpresaEmpleadoraUpdateAPIView(UpdateAPIView):
 class PensionadoListAPIView(ListAPIView):
     queryset = Pensionado.objects.all()
     serializer_class = PensionadoSerializer
-
-    # permission_classes = (IsAuthenticated,)
 
     filter_backends = (filters.SearchFilter,)
     search_fields = (
@@ -623,14 +613,10 @@ class PensionadoCreateAPIView(CreateAPIView):
     queryset = Pensionado.objects.all()
     serializer_class = PensionadoCreateUpdateSerializer
 
-    # permission_classes = (IsAuthenticated,)
-
 
 # Código Dinámico
 class PensionadoUpdateAPIView(UpdateAPIView):
     serializer_class = PensionadoCreateUpdateSerializer
-
-    # permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         pen = Pensionado.objects.filter(pk=self.kwargs['pk'])
@@ -642,7 +628,7 @@ def paymentCalculate(request):
     pensionado = request.GET.get('pen')
     tipo = request.GET.get('tipo')
 
-    py = PayingRules()
+    py = PayingRulesImpl()
     tarifa = py.calculate(pensionado, tipo)
     tarifa_str = str(tarifa)
 

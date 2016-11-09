@@ -3,28 +3,7 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from .views import IndexView
 # Código Dinámico
-from .views_impl import (EmpresaEmpleadoraListAPIViewImpl,
-                         EmpresaEmpleadoraCreateAPIViewImpl,
-                         EmpresaEmpleadoraUpdateAPIViewImpl,
-                         EmpresaEmpleadoraListViewImpl,
-                         EmpresaEmpleadoraCreateViewImpl,
-                         EmpresaEmpleadoraUpdateViewImpl,
-                         EmpleadoListViewImpl,
-                         EmpleadoCreateViewImpl,
-                         PensionadoListAPIViewImpl,
-                         PensionadoCreateAPIViewImpl,
-                         PensionadoUpdateAPIViewImpl,
-                         PensionadoListViewImpl,
-                         PensionadoCreateViewImpl,
-                         PensionadoUpdateViewImpl,
-                         empleadoCreateImpl,
-                         empleadoUpdateImpl,
-                         NovedadListViewImpl,
-                         NovedadCreateViewImpl,
-                         NovedadUpdateViewImpl,
-                         PagosListViewImpl,
-                         PagosCreateViewImpl,
-                         paymentCalculateImpl)
+from payment.implements.views_impl import *
 
 urlpatterns = [
     url(

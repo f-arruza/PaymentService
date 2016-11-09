@@ -1,25 +1,4 @@
-from .views import (EmpresaEmpleadoraListAPIView,
-                    EmpresaEmpleadoraCreateAPIView,
-                    EmpresaEmpleadoraUpdateAPIView,
-                    EmpresaEmpleadoraListView,
-                    EmpresaEmpleadoraCreateView,
-                    EmpresaEmpleadoraUpdateView,
-                    EmpleadoListView,
-                    EmpleadoCreateView,
-                    PensionadoListAPIView,
-                    PensionadoCreateAPIView,
-                    PensionadoUpdateAPIView,
-                    PensionadoListView,
-                    PensionadoCreateView,
-                    PensionadoUpdateView,
-                    empleadoCreate,
-                    empleadoUpdate,
-                    NovedadListView,
-                    NovedadCreateView,
-                    NovedadUpdateView,
-                    PagosListView,
-                    PagosCreateView,
-                    paymentCalculate)
+from payment.views import *
 from django.views.decorators.csrf import csrf_exempt
 
 

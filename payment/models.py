@@ -1,6 +1,9 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
+from payment.implements.validations_impl import ValidationsImpl
 
 
 # Create your models here.
@@ -162,6 +165,19 @@ class Pensionado(models.Model):
                                           related_name='pen_emp')
     active = models.BooleanField(default=True)
 
+    def clean(self):
+        val = ValidationsImpl()
+        alerts = val.validate(self)
+
+        if len(alerts) > 0:
+            msj = ''
+            for alert in alerts:
+                if msj == '':
+                    msj = alert
+                else:
+                    msj = msj + alert
+            raise ValidationError({'tipoPensionado': _(msj)})
+
     def __str__(self):
         return self.primerNombre + " " + self.primerApellido
 
@@ -221,6 +237,20 @@ class PagoAporte(models.Model):
     pensionado = models.ForeignKey(Pensionado,
                                    on_delete=models.CASCADE,
                                    related_name='pagos')
+
+    def clean(self):
+        if self.pensionado is not None:
+            val = ValidationsImpl()
+            alerts = val.validate(self.pensionado)
+
+            if len(alerts) > 0:
+                msj = ''
+                for alert in alerts:
+                    if msj == '':
+                        msj = alert
+                    else:
+                        msj = msj + '\n' + alert
+                raise ValidationError({'pensionado': _(msj)})
 
     def __str__(self):
         label = self.pensionado.primerNombre + ' '

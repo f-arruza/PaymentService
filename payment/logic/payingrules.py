@@ -1,4 +1,4 @@
-from .models import Novedad, Pensionado
+from payment.models import Novedad, Pensionado
 from decimal import *
 
 
