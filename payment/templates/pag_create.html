@@ -136,7 +136,7 @@
          alert('Debe seleccionar el pensionado y el tipo de aporte.');
      }
      else {
-       $.get("/payment/pag-calculate/?pen="+pensionado_id+"&tipo="+tipo_id, function( data ) {
+       $.get("/pag-calculate/?pen="+pensionado_id+"&tipo="+tipo_id, function( data ) {
           $('#id_monto').val(data);
           $('#id_monto_v').val(data);
        });

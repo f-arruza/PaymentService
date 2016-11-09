@@ -72,8 +72,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL = '/payment/'
-LOGIN_URL = '/payment/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
