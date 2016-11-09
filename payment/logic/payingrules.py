@@ -5,6 +5,9 @@ from decimal import *
 
 class PayingRules():
 
+    def __init__(self):
+        pass
+
     def calculate(self, pensionado_id, tipo_aporte):
         monto = None
         # SALUD
