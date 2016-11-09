@@ -1,6 +1,9 @@
 # -*- coding: UTF-8 -*-
 class Validations():
 
+    def __init__(self):
+        pass
+
     def validate(self, pensionado):
         alerts = []
         alt = self.validateTipoPensionado(pensionado)
