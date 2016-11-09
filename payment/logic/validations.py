@@ -49,7 +49,7 @@ class Validations():
         return None
 
     def validateTipoPensionVsTipoPagador(self, pensionado):
-        alert = 'No hay concordancia entre el Tipo de Pensión'
+        alert = 'No hay concordancia entre el Tipo de Pension'
         alert = alert + ' y el Tipo de Pagador.'
 
         referIzq = pensionado.tipoPension
@@ -84,7 +84,7 @@ class Validations():
         return None
 
     def validateTipoPensionVsTipoPensionado(self, pensionado):
-        alert = 'No hay concordancia entre el Tipo de Pensión'
+        alert = 'No hay concordancia entre el Tipo de Pension'
         alert = alert + ' y el Tipo de Pensionado.'
 
         referIzq = pensionado.tipoPension
