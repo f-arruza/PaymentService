@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from payment.models import Novedad, Pensionado
 from decimal import *
 

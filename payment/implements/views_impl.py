@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from payment.views import *
 from django.views.decorators.csrf import csrf_exempt
 

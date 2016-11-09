@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from payment.logic.validations import Validations
 
 
