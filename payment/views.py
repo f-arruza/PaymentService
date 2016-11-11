@@ -210,7 +210,7 @@ def empleadoUpdate(request, pk):
                     )
 
         if request.method == 'POST':
-            mensaje = actualizar_empleado(request, pk)
+            mensaje = actualizar_empleado(request, empleado)
             if mensaje == '':
                 return redirect(reverse('empl-list'))
         return render(request,
@@ -222,7 +222,7 @@ def empleadoUpdate(request, pk):
         return redirect(reverse('index'))
 
 
-def actualizar_empleado(request, id_user):
+def actualizar_empleado(request, empleado):
     empresa = request.POST.get('frm_empresa')
     first_name = request.POST.get('frm_first_name')
     last_name = request.POST.get('frm_last_name')
@@ -237,7 +237,7 @@ def actualizar_empleado(request, id_user):
     if (email is not "" and first_name is not "" and last_name is not "" and
        empresa is not "" and active is not None):
 
-        user = User.objects.get(id=id_user)
+        user = User.objects.get(id=empleado.user.id)
         if user is None:
             status = 'Usuario no existe.'
         else:
@@ -248,9 +248,8 @@ def actualizar_empleado(request, id_user):
             user.save()
 
             emp = EmpresaEmpleadora.objects.get(id=empresa)
-            empl = Empleado.objects.get(user=user)
-            empl.empresa = emp
-            empl.save()
+            empleado.empresa = emp
+            empleado.save()
             status = ''
     else:
         status = 'Todos los campos son obligatorios.'

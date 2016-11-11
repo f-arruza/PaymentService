@@ -95,7 +95,7 @@ class NovedadCreateViewImpl(NovedadCreateView):
 
 class NovedadUpdateViewImpl(NovedadUpdateView):
     def __init__(self):
-        PensionadoUpdateView.__init__(self)
+        NovedadUpdateView.__init__(self)
 
 
 class PagosListViewImpl(PagosListView):
