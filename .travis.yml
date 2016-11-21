@@ -7,7 +7,11 @@ deploy:
   provider: heroku
   api_key:
     secure: YCFegvDujSCERgKcj5b9SmneKU0uQiVVmsziBQot9iY7Vv84ki2YtT9+mj0y/3uai1/7qKFVcYp7vZGYlvl7ipV6159Qh/Zb3q3rkIWIcK9M2v8fXXxzjPG3b6n4Id2oq4VAwFqw0K1f2eSIT2I3eglObh05WwzksyNkL+3ayNbWqIQ6t6b8IOOSwM0JzjIbJn+GsloK0XnyEQhkwyMw0YuBrXGfdgwK94G21N3hmNc/c34DNbD4UuMbMPznPXSyvlzIYJAv24nlfR2u1oHE14qJnuJknibHrFtyLutdgrTvInoJiM3Dnx1IDgUxs7d30b8vcNlkTqXACAllXRHHLURqHaJj463Lhk5o2uHwjuZWigEf920CdsnznuNM3Xz5gDvbsXjZR4NS6N0puby/+GyuK09SYfUwqBDoRm6F1a76mHwn8EN98xuadXOiwEFRK7q2yfuo7gmP351Qt7zfiljOXywJkPQJI49PO8m26ZW1W324h93xdlU7dZimQXajAPJN1Zp4QkUS148oJAPQzb+KQCDn/YuEWkp4CuNS0MrfCahHhXpLu60kDPpv8K45bTNR3QC6VlUN3UTt1XzlKmu2SMmEeN7y1o/GPCbmECVYJBpD1cZQ563iqpQQNQbkPistvTPFoxBiXXkzQgjcdgbl1JA2jlkb9tizx+q2e0g=
-  app: pilafacil
+  app:
+    # https://pilafacil.herokuapp.com/
+    master: pilafacil
+    # https://mypilafacil.herokuapp.com/
+    master: mypilafacil    
   on:
     repo: f-arruza/PaymentService
   run:
